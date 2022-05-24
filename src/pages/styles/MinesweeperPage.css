@@ -1,0 +1,20 @@
+.minesweeper--thumbnail {
+  cursor: pointer;
+  filter: none;
+}
+
+.minesweeper--thumbnail:hover {
+  filter: saturate(10%)
+}
+
+#minesweeper-canvas {
+  cursor: pointer;
+  display: block;
+  margin: auto;
+  margin-top: 50px;
+}
+
+.gamepage {
+  width: 100%;
+}
+
