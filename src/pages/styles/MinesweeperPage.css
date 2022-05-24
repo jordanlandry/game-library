@@ -1,8 +1,5 @@
 #minesweeper-canvas {
   cursor: pointer;
-  display: block;
-  margin: auto;
-  margin-top: 50px;
 }
 
 .minesweeper--select-wrapper {

@@ -8,6 +8,8 @@ const board = []
 let firstClick = true
 let firstSpot
 
+let difficulty = 'MEDIUM'
+
 const bombImage = new Image()
 bombImage.src = 'https://esraa-alaarag.github.io/Minesweeper/images/bomb.png'
 
@@ -17,16 +19,16 @@ flagImage.src = 'https://inotgo.com/imagesLocal/202108/03/20210803020506364t_4.p
 const defaultImage = new Image()
 defaultImage.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Minesweeper_unopened_square.svg/768px-Minesweeper_unopened_square.svg.png'
 
-
-export default function startGame(difficulty = "MEDIUM") {
-  init(difficulty)
+export default function startGame(diff = difficulty) {
+  init(diff)
   clearBackground()
   generateCells()
   update();
 }
 
-const init = (difficulty) => {
-  switch (difficulty) {
+const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
+const init = (diff) => {
+  switch (diff) {
     case 'BEGINNER':
       xCount = 8;
       yCount = 8;
@@ -43,35 +45,66 @@ const init = (difficulty) => {
       bombCount = 40
   }
 
-  Math.floor(width = window.innerWidth * .8)
+  let min = window.innerHeight * 0.8
+  let max = diff === "HARD" ? window.innerWidth * 0.9 : window.innerHeight * 0.9
+  
+  width = Math.floor(clamp(window.innerWidth * 0.85, min, max))
+
   w = width / xCount
   height = Math.floor(yCount / xCount * width)
   canvas = document.getElementById('minesweeper-canvas')
   ctx = canvas.getContext('2d')
-  
-  
+
   canvas.setAttribute('width', width)
   canvas.setAttribute('height', height)
 
   canvas.addEventListener('mousedown', handleMouseClick, true)
   canvas.addEventListener('contextmenu', handleRemoveRightClick, true)
 
+  // window.addEventListener('resize', handleResize, true)
+
   ctx.font = `bold ${w + 2}px serif`
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-
 }
+
+
+// let lastSize = 0
+
+// const handleResize = (e) => {
+//   // Regenerate the width
+//   if (!canvas) return
+//   if (Math.abs(window.innerWidth - lastSize) < 100) return
+//   console.log('asd')
+
+//   width = difficulty === "HARD" 
+//     ? Math.floor(window.innerWidth * 0.8) 
+//     : Math.floor(window.innerHeight * 0.8)
+
+//   width = Math.floor(clamp(window.innerWidth * 0.8, window.innerHeight * 0.9, window.innerWidth * 0.9))
+
+//   w = width / xCount
+//   height = Math.floor(yCount / xCount * width)
+
+//   canvas.setAttribute('width', width)
+//   canvas.setAttribute('height', height)
+
+//   update()
+//   lastSize = window.innerWidth
+// }
+
 
 const handleRemoveRightClick = (e) => {
   e.preventDefault();
 }
 
+
 const handleMouseClick = (e) => {
   if (e.button !== 0 && e.button !== 2) return    // Only run on left click or right click
   
   // Get mouse position
-  let i = Math.floor((e.x - canvas.offsetLeft) / w)
-  let j = Math.floor((e.y - canvas.offsetTop) / w)
+  let i = Math.floor((e.x - canvas.offsetLeft + document.documentElement.scrollLeft) / w)
+  let j = Math.floor((e.y - canvas.offsetTop + document.documentElement.scrollTop) / w)
   
   // If you somehow click out of bounds
   if (i >= xCount) i = xCount -1
@@ -213,10 +246,8 @@ class Cell {
     this.i = i
     this.j = j
 
-    this.size = w
-
-    this.x = i * this.size
-    this.y = j * this.size
+    this.x = i * w
+    this.y = j * w
 
     this.isBomb = false;
     this.isShown = false;
@@ -229,7 +260,7 @@ class Cell {
     if (this.isShown) return
     if (this.isBomb) {
       ctx.fillStyle = 'red'
-      ctx.fillRect(this.x, this.y, this.size, this.size)
+      ctx.fillRect(this.x, this.y, w, w)
       gameOver()
       return
     }
@@ -266,18 +297,18 @@ class Cell {
     else if (!this.isShown) img = defaultImage
 
     if (img !== '') {
-      ctx.drawImage(img, this.x, this.y, this.size, this.size)
+      ctx.drawImage(img, this.x, this.y, w, w)
     }
 
     else {
       ctx.fillStyle = '#cfced2'
-      ctx.fillRect(this.x, this.y, this.size, this.size)
+      ctx.fillRect(this.x, this.y, w, w)
     }
 
     // Border
     ctx.strokeStyle = 'black'
     ctx.lineWidth = 1
-    ctx.strokeRect(this.x, this.y, this.size, this.size)
+    ctx.strokeRect(this.x, this.y, w, w)
 
     // Text content
     if (this.value === 0 || !this.isShown || this.isFlagged) return
@@ -290,7 +321,7 @@ class Cell {
       this.value === 3 ? 'red' : 
       this.value === 2 ? 'green': 'blue'
 
-    ctx.fillText(this.value, this.x + this.size / 2, this.y + this.size / 2 + 2)
+    ctx.fillText(this.value, this.x + w / 2, this.y + w / 2 + 2)
   }
 
   generateValue() {
