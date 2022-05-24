@@ -39,3 +39,11 @@
   /* grid-template-columns: repeat( auto-fit, minmax(450px, 1fr) ); */
 }
 
+.gamecard--desc {
+  font-size: 1.25rem;
+  color: rgb(168, 184, 158);
+  margin-left: 25px;
+  word-spacing: 2px;
+  letter-spacing: 0.5px;
+}
+

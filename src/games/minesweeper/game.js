@@ -41,7 +41,6 @@ const init = (difficulty) => {
       xCount = 16
       yCount = 16
       bombCount = 40
-      break
   }
 
   Math.floor(width = window.innerWidth * .8)

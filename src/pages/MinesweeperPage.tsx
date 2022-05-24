@@ -7,7 +7,7 @@ import './styles/MinesweeperPage.css'
 type Props = {}
 
 export default function MinesweeperPage({}: Props) {
-  const [ difficulty, setDifficulty ] = useState<string | undefined>('BEGINNER')
+  const [ difficulty, setDifficulty ] = useState<string | undefined>('MEDIUM')
   const [ isGameRunning, setIsGameRunning ] = useState<boolean>(false)
 
   useEffect(() => {

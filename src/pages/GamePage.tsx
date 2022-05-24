@@ -8,11 +8,11 @@ export default function GamePage({}: Props) {
   const gameElements = gamesData.map(game => {
     const { name, id, desc, img, route } = game;
     return (
-      <a className="gamecard--wrapper" key={id + 1} href={route}>
+      <a className="gamecard--wrapper" key={id + 1} href={`/game-library${route}`}>
         <img className="gamecard--img" src={img} />
         <div className="gamecard--info">
           <h2 className="gamecard--name">{name}</h2>
-          <h3 className="gamecard--desc">{desc}</h3>
+          <p className="gamecard--desc">{desc}</p>
         </div>
       </a>
     )

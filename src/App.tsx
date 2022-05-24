@@ -15,10 +15,10 @@ function App() {
       {isMobile && <h1 className="mobile-note">**NOTE** Some games do not currently support mobile devices. Full mobile support is in development. Sorry for the inconvenience.</h1>}
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/games" element={<GamePage />} />
-        <Route path="/minesweeper" element={<MinesweeperPage />} />
-        <Route path="/2048" element={<Twenty48Page />} />
-        <Route path="/pong" element={<Twenty48Page />} />
+        <Route path="/game-library/games" element={<GamePage />} />
+        <Route path="/game-library/minesweeper" element={<MinesweeperPage />} />
+        <Route path="/game-library/2048" element={<Twenty48Page />} />
+        <Route path="/game-library/pong" element={<Twenty48Page />} />
       </Routes>
     </div>
   );
