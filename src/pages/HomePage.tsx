@@ -4,6 +4,7 @@ type Props = {}
 
 export default function HomePage({}: Props) {
   return (
-    <div className="soon">Coming Soon!</div>
+    // <div className="soon"></div>
+    <a className="soon" href="/games">Enter Site</a>
   )
 }

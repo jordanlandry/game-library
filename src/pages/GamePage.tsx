@@ -10,8 +10,10 @@ export default function GamePage({}: Props) {
     return (
       <a className="gamecard--wrapper" key={id + 1} href={route}>
         <img className="gamecard--img" src={img} />
-        <h2 className="gamecard--name">{name}</h2>
-        <h3 className="gamecard--desc">{desc}</h3>
+        <div className="gamecard--info">
+          <h2 className="gamecard--name">{name}</h2>
+          <h3 className="gamecard--desc">{desc}</h3>
+        </div>
       </a>
     )
   })

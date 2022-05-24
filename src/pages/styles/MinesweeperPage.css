@@ -1,12 +1,3 @@
-.minesweeper--thumbnail {
-  cursor: pointer;
-  filter: none;
-}
-
-.minesweeper--thumbnail:hover {
-  filter: saturate(10%)
-}
-
 #minesweeper-canvas {
   cursor: pointer;
   display: block;
@@ -14,7 +5,12 @@
   margin-top: 50px;
 }
 
-.gamepage {
-  width: 100%;
+.minesweeper--select-wrapper {
+  display: block;
+  margin: auto;
+  width: fit-content;
 }
 
+.minesweeper--select {
+  font-size: 2rem;
+}

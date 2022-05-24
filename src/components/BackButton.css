@@ -1,0 +1,17 @@
+.backbtn--wrapper {
+
+}
+
+.backbtn--btn {
+  cursor: pointer;
+  margin-left: 25px;
+  padding: 10px;
+  background-color: white;
+  width: fit-content;
+  font-weight:bold;
+}
+
+.backbtn--btn:hover {
+  color: white;
+  background-color: rgb(79, 79, 79)
+}

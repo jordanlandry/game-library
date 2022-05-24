@@ -2,7 +2,7 @@ let canvas = null;
 let ctx = null
 let xCount, yCount, width, height, w
 
-let bombCount = 50
+let bombCount = 1
 const board = []
 
 let firstClick = true
@@ -26,14 +26,31 @@ export default function startGame(difficulty = "MEDIUM") {
 }
 
 const init = (difficulty) => {
+  switch (difficulty) {
+    case 'BEGINNER':
+      xCount = 8;
+      yCount = 8;
+      bombCount = 10
+      break
+    case 'HARD':
+      xCount = 40
+      yCount = 16
+      bombCount = 99
+      break
+    default:  // Medium
+      xCount = 16
+      yCount = 16
+      bombCount = 40
+      break
+  }
+
+  Math.floor(width = window.innerWidth * .8)
+  w = width / xCount
+  height = Math.floor(yCount / xCount * width)
   canvas = document.getElementById('minesweeper-canvas')
   ctx = canvas.getContext('2d')
-  xCount = 30
-  yCount = 16
-  width = 750
-  height = Math.floor(yCount / xCount * width)
-  w = width / xCount
-
+  
+  
   canvas.setAttribute('width', width)
   canvas.setAttribute('height', height)
 
@@ -44,8 +61,6 @@ const init = (difficulty) => {
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
 
-  const bombFreq = difficulty === 'EASY' ? .1 : difficulty === 'HARD' ? .3 : .2
-  bombCount = Math.floor(xCount * yCount * bombFreq)
 }
 
 const handleRemoveRightClick = (e) => {
@@ -104,6 +119,30 @@ const showAll = () => {
   })
 
   // drawBorder()
+}
+
+const showAllBombs = () => {
+  board.forEach(row => {
+    row.forEach(cell => {
+      if (cell.isBomb && !cell.isShown && !cell.isFlagged) {
+        cell.isShown = true
+        cell.draw()
+      }
+
+      if (cell.isFlagged && !cell.isBomb) {
+        ctx.strokeStyle = 'red'
+        // Draw X
+        ctx.beginPath();
+
+        ctx.moveTo(cell.x, cell.y);
+        ctx.lineTo(cell.x + cell.size, cell.y + cell.size)
+
+        ctx.moveTo(cell.x + cell.size, cell.y)
+        ctx.lineTo(cell.x, cell.y + cell.size)
+        ctx.stroke();
+      }
+    })
+  })
 }
 
 
@@ -169,7 +208,6 @@ const generateBoardValues = () => {
   })
 }
 
-
 // ----------------------------------------------------- 
 class Cell {
   constructor(i, j) {
@@ -191,6 +229,8 @@ class Cell {
   show() {
     if (this.isShown) return
     if (this.isBomb) {
+      ctx.fillStyle = 'red'
+      ctx.fillRect(this.x, this.y, this.size, this.size)
       gameOver()
       return
     }
@@ -270,6 +310,7 @@ class Cell {
 }
 
 const gameOver = () => {
+  showAllBombs();
   canvas.removeEventListener('mousedown', handleMouseClick, true)
   canvas.removeEventListener('contextmenu', handleRemoveRightClick, true)
 }

@@ -6,9 +6,11 @@ type Props = {}
 
 export default function Twenty48Page({}: Props) {
   return (
+    <>
+    <BackButton />
     <div className="soon">
-      <BackButton />
       <h1>COMING SOON!</h1>
     </div>
+    </>
   )
 }

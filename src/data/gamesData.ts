@@ -1,3 +1,6 @@
+// Image imports
+import minesweeperThumbnail from '../images/minesweeper-thumbnail.png'
+
 interface Game {
   id: number,
   route: string,
@@ -11,7 +14,7 @@ export default<Game[]> [
     id: 0,
     route: '/minesweeper',
     name: 'Minesweeper',
-    img: 'https://dannytan.github.io/images/minesweeper_1.png'
+    img: minesweeperThumbnail,
   },
   {
     id: 1,
