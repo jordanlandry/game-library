@@ -7,21 +7,48 @@ import './styles/MinesweeperPage.css'
 type Props = {}
 
 export default function MinesweeperPage({}: Props) {
-  const [ difficulty, setDifficulty ] = useState<string | undefined>('MEDIUM')
+  const [ difficulty, setDifficulty ] = useState<string>('MEDIUM')
   const [ isGameRunning, setIsGameRunning ] = useState<boolean>(false)
 
-  useEffect(() => {
-    isGameRunning && startGame(difficulty)
-  }, [difficulty, isGameRunning])
+  interface IDictionary<TValue> {
+    [id: string] : TValue;
+  }
 
+  const localStorageNames:IDictionary<string> = {
+    BEGINNER: 'easy-high-score',
+    MEDIUM: 'med-high-score',
+    HARD : 'hard-high-score',
+  }
+
+  const [ highscore, setHighscore ] = useState<any>(
+    localStorage.getItem(localStorageNames[difficulty])
+  )
+
+  const handleSetHighScore = (score:number) => {
+    if (highscore === null || score < parseInt(highscore)) {
+      localStorage.setItem(localStorageNames[difficulty], JSON.stringify(score))
+      setHighscore(highscore)
+    }
+  }
 
   const handleDifficultyChange = (e:any):void => {
     setDifficulty(e.target.value);
   }
 
+  // Update high score when difficulty is changed
+  useEffect(() => {
+    setHighscore(localStorage.getItem(localStorageNames[difficulty]))
+  }, [difficulty])
+
+
+  useEffect(() => {
+    isGameRunning && startGame(difficulty, handleSetHighScore)
+  }, [difficulty, isGameRunning])
+
   return (
     <div>
       <BackButton />
+      <h1 className="minesweeper--highscore">High Score: {highscore} </h1>
       <canvas id="minesweeper-canvas" width={0} height={0}/>
       { !isGameRunning && 
         <>
@@ -37,7 +64,7 @@ export default function MinesweeperPage({}: Props) {
           setIsGameRunning={setIsGameRunning} 
           isGameRunning={isGameRunning}/> 
         </>
-          }
+      }
     </div>
   )
 }

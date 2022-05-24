@@ -10,6 +10,8 @@ let firstSpot
 
 let difficulty = 'MEDIUM'
 
+let handleSetHighScore;
+
 const bombImage = new Image()
 bombImage.src = 'https://esraa-alaarag.github.io/Minesweeper/images/bomb.png'
 
@@ -19,23 +21,41 @@ flagImage.src = 'https://inotgo.com/imagesLocal/202108/03/20210803020506364t_4.p
 const defaultImage = new Image()
 defaultImage.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Minesweeper_unopened_square.svg/768px-Minesweeper_unopened_square.svg.png'
 
-export default function startGame(diff = difficulty) {
-  init(diff)
+const menuSize = 100;
+
+let time = 0
+let timer = null
+
+let nonBombCount = 0 
+let remainingCells = 1000000
+
+const handleTimer = () => {
+  time += 1
+  drawTimerOnScreen()
+}
+
+export default function startGame(diff = difficulty, setHighScore) {
+  init(diff, setHighScore)
+  
   clearBackground()
   generateCells()
   update();
 }
 
 const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
-const init = (diff) => {
+const init = (diff, setHighScore) => {
+  timer = setInterval(handleTimer, 1000)
+
+  handleSetHighScore = setHighScore;
+
   switch (diff) {
     case 'BEGINNER':
-      xCount = 8;
-      yCount = 8;
+      xCount = 9;
+      yCount = 9;
       bombCount = 10
       break
     case 'HARD':
-      xCount = 40
+      xCount = 30
       yCount = 16
       bombCount = 99
       break
@@ -55,11 +75,17 @@ const init = (diff) => {
   canvas = document.getElementById('minesweeper-canvas')
   ctx = canvas.getContext('2d')
 
+
+  height += menuSize
+
   canvas.setAttribute('width', width)
   canvas.setAttribute('height', height)
 
   canvas.addEventListener('mousedown', handleMouseClick, true)
   canvas.addEventListener('contextmenu', handleRemoveRightClick, true)
+
+  nonBombCount = xCount * yCount - bombCount;
+  remainingCells = nonBombCount
 
   // window.addEventListener('resize', handleResize, true)
 
@@ -104,9 +130,10 @@ const handleMouseClick = (e) => {
   
   // Get mouse position
   let i = Math.floor((e.x - canvas.offsetLeft + document.documentElement.scrollLeft) / w)
-  let j = Math.floor((e.y - canvas.offsetTop + document.documentElement.scrollTop) / w)
+  let j = Math.floor((e.y - canvas.offsetTop + document.documentElement.scrollTop - menuSize) / w)
   
   // If you somehow click out of bounds
+  if (j < 0 || i < 0) return
   if (i >= xCount) i = xCount -1
   if (j >= yCount) j = yCount -1
 
@@ -142,6 +169,7 @@ const update = () => {
 // Re render
 const showAll = () => {
   clearBackground()
+  drawTimerOnScreen()
 
   // Grid
   board.forEach(row => {
@@ -163,14 +191,15 @@ const showAllBombs = () => {
 
       if (cell.isFlagged && !cell.isBomb) {
         ctx.strokeStyle = 'red'
+        ctx.lineWidth = 3
         // Draw X
         ctx.beginPath();
 
         ctx.moveTo(cell.x, cell.y);
-        ctx.lineTo(cell.x + cell.size, cell.y + cell.size)
+        ctx.lineTo(cell.x + w, cell.y + w)
 
-        ctx.moveTo(cell.x + cell.size, cell.y)
-        ctx.lineTo(cell.x, cell.y + cell.size)
+        ctx.moveTo(cell.x + w, cell.y)
+        ctx.lineTo(cell.x, cell.y + w)
         ctx.stroke();
       }
     })
@@ -186,6 +215,13 @@ const generateCells = () => {
     for (let j = 0; j < yCount; j++) {
       board[i].push(new Cell(i, j))}
   }
+
+  
+  board.forEach((col) => {
+    col.forEach(cell => {
+      cell.y += menuSize;
+    })
+  })
 }
 
 // **** START OF GAME **** \\
@@ -261,16 +297,19 @@ class Cell {
     if (this.isBomb) {
       ctx.fillStyle = 'red'
       ctx.fillRect(this.x, this.y, w, w)
-      gameOver()
+      gameLost()
       return
     }
 
+    remainingCells--
+
     this.isShown = true
     this.draw()
+    checkState()
   }
 
   showNeighbours() {
-    this.isShown = true
+    this.show()
     this.draw()
 
     if (this.value !== 0 || this.isBomb) return
@@ -321,6 +360,7 @@ class Cell {
       this.value === 3 ? 'red' : 
       this.value === 2 ? 'green': 'blue'
 
+    ctx.font = `${w + 2}px serif`
     ctx.fillText(this.value, this.x + w / 2, this.y + w / 2 + 2)
   }
 
@@ -339,14 +379,28 @@ class Cell {
   }
 }
 
-const gameOver = () => {
+const gameLost = () => {
   showAllBombs();
+  gameOver()
+  
+}
+
+const gameOver = () => {
+  // Remove functionality for the game
   canvas.removeEventListener('mousedown', handleMouseClick, true)
   canvas.removeEventListener('contextmenu', handleRemoveRightClick, true)
+
+  clearInterval(timer)
+}
+
+const checkState = () => {
+  if (remainingCells <= 0) gameWon()
 }
 
 const gameWon = () => {
-  return
+  handleSetHighScore(time)
+  drawWinScreen()
+  gameOver()
 }
 
 // ***** GRAPHICS FUNCTIONS ***** \\
@@ -358,4 +412,21 @@ const clearBackground = () => {
 const drawBorder = () => {
   ctx.strokeStyle = 'black'
   ctx.strokeRect(0, 0, width, height);
+}
+
+const drawTimerOnScreen = () => {
+  ctx.fillStyle = 'white'
+  ctx.fillRect(0, 0, width, menuSize);
+  ctx.font = `${w / 2}px serif`
+  ctx.fillStyle = 'red'
+  ctx.fillText(time, width / 2, menuSize / 2, width, menuSize)
+}
+
+const drawWinScreen = () => {
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.5)'
+  ctx.fillRect(0, 0, width, height)
+
+  ctx.font = `${w / 3}px serif`
+  ctx.fillStyle = 'white';
+  ctx.fillText("YOU WIN! REFRESH TO PLAY AGAIN", width / 2, height / 2, width)
 }

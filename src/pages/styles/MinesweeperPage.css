@@ -11,3 +11,8 @@
 .minesweeper--select {
   font-size: 2rem;
 }
+
+.minesweeper--highscore {
+  color: white;
+  margin-left: 25px;
+}
