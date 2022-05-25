@@ -29,6 +29,7 @@
 
 .gamecard--img {
   width: 250px;
+  aspect-ratio: 1;
 }
 
 .gamepage {

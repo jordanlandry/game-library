@@ -1,0 +1,6 @@
+.pong--game {
+  display: block;
+  margin: auto;
+  margin-top: 100px;
+  overflow: hidden;
+}
