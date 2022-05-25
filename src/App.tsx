@@ -3,11 +3,8 @@ import { isMobile } from 'react-device-detect';
 import Navbar from './components/Navbar';
 import GamePage from './pages/GamePage';
 import HomePage from './pages/HomePage';
-import MinesweeperPage from './pages/MinesweeperPage';
-import Twenty48Page from './pages/Twenty48Page';
 
 import './App.css'
-import PongPage from './pages/PongPage';
 
 function App() {
   return (
@@ -17,9 +14,6 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/game-library/games" element={<GamePage />} />
-        <Route path="/game-library/minesweeper" element={<MinesweeperPage />} />
-        <Route path="/game-library/2048" element={<Twenty48Page />} />
-        <Route path="/game-library/pong" element={<PongPage />} />
       </Routes>
     </div>
   );

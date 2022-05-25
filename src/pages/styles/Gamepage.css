@@ -1,50 +1,48 @@
-.gamecard--wrapper {
-  display: grid;
-  grid-template-columns: 250px 1fr;
 
-  text-decoration: none;
-  border-radius: 25px;
+.game--inactive-wrapper {
   background-color: rgba(0, 0, 0, 0.3);
-  padding: 25px;
-  font-size: clamp(12px, 2.5vw, 2rem);
-
-  margin: auto;
-  margin-bottom: 25px;
-
-  width: clamp(500px, 80vw, 1000px);
-  /* width: 80vw;
-  min-width: 480px;
-  max-width: 1000px; */
-
-}
-
-.gamecard--name {
-  text-transform: uppercase;
-  margin: 0;
-  margin-left: 25px;
-  padding-top: 10px;
   color: white;
+  display: flex;
+  width: 80vw;
+  max-width: 1000px;
+  padding: 25px;
+  border-radius: 10px;
+  margin: 25px auto;
+  cursor: pointer;
+}
+
+.game--inactive-wrapper img {
+  width: 200px;
+  height: 200px;
+  margin-right: 25px;
+}
+
+.game--inactive-wrapper h3 {
+  font-size: 1rem;
+}
+
+
+.game--active-wrapper {
+  display: block;
+  margin: auto;
+  width: 80vw;
+  height: 80vw;
+
+  max-width: 1000px;
+  max-height: 1000px;
+}
+
+.game--active-name {
+  color: white;
+  text-align: center;
+}
+
+.game--soon {
+  text-align: center;
+}
+
+.game--active-wrapper iframe{ 
   width: inherit;
-}
-
-.gamecard--img {
-  width: 250px;
-  aspect-ratio: 1;
-}
-
-.gamepage {
-  margin-top: 100px;
-  /* display: grid; */
-  /* justify-content: center;
-  justify-items: center; */
-  /* grid-template-columns: repeat( auto-fit, minmax(450px, 1fr) ); */
-}
-
-.gamecard--desc {
-  font-size: 1.25rem;
-  color: rgb(168, 184, 158);
-  margin-left: 25px;
-  word-spacing: 2px;
-  letter-spacing: 0.5px;
+  height: inherit;
 }
 

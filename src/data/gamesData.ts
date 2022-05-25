@@ -1,10 +1,10 @@
-// Image imports
-import minesweeperThumbnail from '../images/minesweeper-thumbnail.png'
-import pongThumbnail from '../images/pong-thumbnail.png'
+import minesweeper from '../images/minesweeper-thumbnail.png'
+import pong from '../images/pong-thumbnail.png'
 
 interface Game {
   id: number,
   route: string,
+  host: string,
   name: string,
   desc?: string,
   img: string,
@@ -14,20 +14,17 @@ export default<Game[]> [
   {
     id: 0,
     route: '/minesweeper',
+    host: "",
     name: 'Minesweeper',
-    img: minesweeperThumbnail,
-    desc: `Minesweeper is a logic-based puzzle game. The objective is to clear a board which contians hidden "bombs" without detonating any! Each grid square contains clues giving the number of nearby bombs (in a 3x3 area). When you believe there is a bomb, you can flag it (right click) to make sure you don't set off a bomb!`
+    desc: `Minesweeper is a logic-based puzzle game. The objective is to clear a board which contians hidden "bombs" without detonating any! Each grid square contains clues giving the number of nearby bombs (in a 3x3 area). When you believe there is a bomb, you can flag it (right click) to make sure you don't set off a bomb!`,
+    img: minesweeper,
   },
   {
     id: 1,
-    route: '/2048',
-    name: '2048',
-    img: 'https://res.cloudinary.com/lmn/image/upload/fl_lossy,q_80/f_auto/v1/gameskinny/693a45d8d66fad03debd0c9270109865.png'
-  },
-  {
-    id: 2,
     route: '/pong',
     name: 'Pong',
-    img: pongThumbnail,
+    host: 'https://jordanlandry.github.io/pong/', 
+    desc: `Pong is a table-tennis simulation game with simple 2d graphics. Pong was originally released in 1972 and commonly mistaken for the first game ever made, however that is incorrect.`,
+    img: pong
   },
 ]
