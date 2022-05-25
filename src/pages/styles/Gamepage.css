@@ -21,7 +21,6 @@
   font-size: 1rem;
 }
 
-
 .game--active-wrapper {
   display: block;
   margin: auto;
@@ -41,8 +40,8 @@
   text-align: center;
 }
 
-.game--active-wrapper iframe{ 
-  width: inherit;
-  height: inherit;
+.game--active-wrapper iframe {
+  max-width: 1000px;
+  max-height: 1000px;
 }
 

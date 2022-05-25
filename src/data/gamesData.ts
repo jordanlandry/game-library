@@ -14,7 +14,7 @@ export default<Game[]> [
   {
     id: 0,
     route: '/minesweeper',
-    host: "https://jordanlandry.github.io/minesweepergame",
+    host: "https://jordanlandry.github.io/minesweeper",
     name: 'Minesweeper',
     desc: `Minesweeper is a logic-based puzzle game. The objective is to clear a board which contians hidden "bombs" without detonating any! Each grid square contains clues giving the number of nearby bombs (in a 3x3 area). When you believe there is a bomb, you can flag it (right click) to make sure you don't set off a bomb!`,
     img: minesweeper,

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import games from '../data/gamesData'
 import './styles/Gamepage.css'
 
@@ -21,7 +21,12 @@ export default function GamePage({}: Props) {
           <h1 className='game--active-name'>{name}</h1>
           {host === '' && <h1 className="soon game--soon">{name} Coming Soon!</h1>}
           {host !== '' && <div className="game--active-wrapper">
-            { host !== '' && <iframe className="game--host" src={host} /> }
+            { host !== '' && 
+            <iframe 
+              width={Math.min(1000, window.innerWidth * 0.8)}
+              height={Math.min(1000, window.innerWidth * 0.8)}
+              className="game--host" 
+              src={host} /> }
           </div>}
         </> :
         <div className="game--inactive-wrapper" onClick={() => handleClick(id)}>
@@ -34,6 +39,19 @@ export default function GamePage({}: Props) {
       </div>
     )
   })
+
+
+  useEffect(() => {
+    const handleKeydown = (e:any) => {
+      if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+        e.view.event.preventDefault();
+        console.log('asd');
+      }
+    }
+    document.addEventListener('keydown', handleKeydown)
+    return () => {document.removeEventListener('keydown', handleKeydown)}
+  }, [])
+  
 
 
   return (
