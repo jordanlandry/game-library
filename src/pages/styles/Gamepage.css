@@ -41,6 +41,7 @@
 }
 
 .game--active-wrapper iframe {
+  color: var(--game-bg);
   max-width: 1000px;
   max-height: 1000px;
 }

@@ -23,10 +23,16 @@ export default function GamePage({}: Props) {
           {host !== '' && <div className="game--active-wrapper">
             { host !== '' && 
             <iframe 
-              width={Math.min(1000, window.innerWidth * 0.8)}
-              height={Math.min(1000, window.innerWidth * 0.8)}
+              width={Math.min(1000, Math.floor(window.innerWidth * 0.8))}
+              height={Math.min(1000, Math.floor(window.innerWidth * 0.8))}
               className="game--host" 
-              src={host} /> }
+              src={host} 
+              marginWidth={0}
+              marginHeight={0}
+              
+              frameBorder={0}
+              scrolling='no'
+              /> }
           </div>}
         </> :
         <div className="game--inactive-wrapper" onClick={() => handleClick(id)}>

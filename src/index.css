@@ -1,8 +1,13 @@
+:root {
+  --game-bg: rgb(13, 13, 34);
+}
+
 body {
   font-family: 'Montserrat', sans-serif;
-  background-color: rgb(13, 13, 34);
+  background-color: var(--game-bg);
   margin: 0;
 }
+
 canvas {
   display: block;
   margin: auto;
